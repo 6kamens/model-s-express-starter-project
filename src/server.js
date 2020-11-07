@@ -8,12 +8,16 @@ const express =  require('express');
 // const helmet = require('helmet');
 // const morgan = require('morgan');
 const cors = require('cors');
+const db = require('./db');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 const app = express();
 // app.use(morgan);
 app.use(cors());
 app.use(express.json());
+
+db.dbConnection();
 
 const routes = require('./routes');
 const errHandler = require('./middleware/errHandler');
