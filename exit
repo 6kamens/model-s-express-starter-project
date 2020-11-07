@@ -1,0 +1,46 @@
+[1mdiff --git a/src/middleware/notfound.js b/src/middleware/notfound.js[m
+[1mdeleted file mode 100644[m
+[1mindex b3dca85..0000000[m
+[1m--- a/src/middleware/notfound.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,13 +0,0 @@[m
+[31m-function notFoundRes(err, req, res, next) {[m
+[31m-  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;[m
+[31m-  res.status(statusCode);[m
+[31m-  res.json({[m
+[31m-    message: err.message,[m
+[31m-    stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack[m
+[31m-  });[m
+[31m-  }[m
+[31m-  [m
+[31m-  module.exports = {[m
+[31m-    notFoundRes[m
+[31m-  };[m
+[31m-  [m
+\ No newline at end of file[m
+[1mdiff --git a/src/server.js b/src/server.js[m
+[1mindex 1c9093b..81bc6ba 100644[m
+[1m--- a/src/server.js[m
+[1m+++ b/src/server.js[m
+[36m@@ -16,7 +16,7 @@[m [mapp.use(cors());[m
+ app.use(express.json());[m
+ [m
+ const routes = require('./routes');[m
+[31m-const notfound = require('./middleware/notfound');[m
+[32m+[m[32mconst errHandler = require('./middleware/errHandler');[m
+ [m
+ const port = process.env.PORT || 3000 ;[m
+ [m
+[36m@@ -24,9 +24,11 @@[m [mapp.get('/', (req, res) => {[m
+     res.send('Starting API...');[m
+   });[m
+ [m
+[32m+[m
+ app.use(routes);[m
+ [m
+[31m-app.use(notfound.notFoundRes);[m
+[32m+[m[32mapp.use(errHandler.errorHandler);[m
+[32m+[m
+ [m
+ app.listen(port,() => {[m
+     console.log(`Listening: http://localhost:${port}`);[m

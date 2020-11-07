@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 const routes = require('./routes');
-const notfound = require('./middleware/notfound');
+const errHandler = require('./middleware/errHandler');
 
 const port = process.env.PORT || 3000 ;
 
@@ -24,9 +24,11 @@ app.get('/', (req, res) => {
     res.send('Starting API...');
   });
 
+
 app.use(routes);
 
-app.use(notfound.notFoundRes);
+app.use(errHandler.errorHandler);
+
 
 app.listen(port,() => {
     console.log(`Listening: http://localhost:${port}`);
