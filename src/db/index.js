@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+const connectionString = process.env.DB_CONNECTION || "";
 
 
 module.exports.dbConnection = ()=>{
-    mongoose.connect(process.env.DB_CONNECTION,{useNewUrlParser:true},()=>{
+    mongoose.connect(connectionString,{useNewUrlParser:true},()=>{
         console.log('connected db');
     });
 } ;
